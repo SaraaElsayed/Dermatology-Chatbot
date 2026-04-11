@@ -1,0 +1,6 @@
+colorlog
+pydantic-settings
+fastapi
+uvicorn
+cohere
+python-dotenv
