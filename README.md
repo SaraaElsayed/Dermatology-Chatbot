@@ -1,25 +1,33 @@
-# 🩺 Dermatology Chatbot API
+# 🩺 DermAssist — Dermatology AI Chatbot
 
-A bilingual (Arabic/English) dermatology assistant chatbot built with FastAPI and powered by Cohere's LLM. The chatbot answers skin-related questions, detects the user's language automatically, and strictly limits responses to dermatology topics only.
+A bilingual **Arabic / English** dermatology assistant powered by **Cohere LLM**.  
+Answers skin-related questions only. Automatically detects and responds in the user's language.
+
+🔗 **[Live Demo on Hugging Face Spaces](https://huggingface.co/spaces/Saraay/Dermatology_chatbot)**
+
+![Demo](demo.gif)
+
+---
+
+## ✨ Features
+
+- 💬 Conversational chat with memory (last 10 turns)
+- 🌍 Bilingual: Arabic & English — auto-detected
+- 🔒 Strictly limited to dermatology topics only
+- ⚡ Powered by Cohere `command-a-03-2025`
+- 🚀 REST API built with FastAPI
+- 🖥️ Live UI demo hosted on Hugging Face Spaces
 
 ---
 
-## 📌 Features
-
-- 💬 Conversational chatbot with multi-turn chat history support
-- 🌍 Bilingual support — Arabic and English (auto-detected)
-- 🔒 Strictly limited to dermatology and skin-related questions
-- ⚡ Powered by Cohere (`command-a-03-2025`) LLM
-- 🚀 Built with FastAPI
-
----
 
 ## 🛠️ Tech Stack
 
 | Layer | Technology |
 |---|---|
-| Framework | FastAPI |
-| LLM | Cohere (`command-a-03-2025`) |
+| API Framework | FastAPI |
+| LLM Provider | Cohere (`command-a-03-2025`) |
+| Demo UI | Gradio (Hugging Face Spaces) |
 | Language | Python 3.10+ |
 | Server | Uvicorn |
 
@@ -61,7 +69,7 @@ cd Dermatology-Chatbot
 
 ```bash
 python -m venv venv
-source venv/bin/activate        # On Windows: venv\Scripts\activate
+source venv/bin/activate        # Windows: venv\Scripts\activate
 ```
 
 ### 3. Install dependencies
@@ -70,7 +78,11 @@ source venv/bin/activate        # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### 4. Create a `.env` file
+### 4. Configure environment variables
+
+```bash
+cp .env.example .env
+```
 
 ```env
 COHERE_API_KEY=your_cohere_api_key_here
@@ -83,16 +95,14 @@ GENERATION_MODEL_ID=command-a-03-2025
 uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-The API will be available at `http://localhost:8000`
+API available at `http://localhost:8000`
 
 ---
 
 ## 📡 API Endpoints
 
 ### `GET /api/v1/health`
-Check if the service is running.
 
-**Response:**
 ```json
 {
   "status": "ok",
@@ -101,12 +111,9 @@ Check if the service is running.
 }
 ```
 
----
-
 ### `POST /api/v1/chat`
-Send a message to the dermatology chatbot.
 
-**Request Body:**
+**Single turn:**
 ```json
 {
   "query": "What causes acne?",
@@ -114,7 +121,7 @@ Send a message to the dermatology chatbot.
 }
 ```
 
-**With chat history (multi-turn):**
+**Multi-turn:**
 ```json
 {
   "query": "How do I treat it?",
@@ -125,3 +132,24 @@ Send a message to the dermatology chatbot.
 }
 ```
 
+**Response:**
+```json
+{
+  "answer": "Acne is primarily caused by excess sebum production..."
+}
+```
+
+---
+
+## 🔑 Environment Variables
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `COHERE_API_KEY` | ✅ | — | Your Cohere API key |
+| `GENERATION_MODEL_ID` | ❌ | `command-a-03-2025` | Cohere model ID |
+
+---
+
+## ⚠️ Disclaimer
+
+This assistant provides general information only and is **not a substitute** for professional medical advice. Always consult a licensed dermatologist.
